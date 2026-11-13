@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Management System - Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155, #1e3a8a);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .neo-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .neo-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .neo-input:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 12px rgba(129, 140, 248, 0.5);
+    }
+
+    .form-header {
+      background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .floating-label {
+      position: relative;
+    }
+
+    .floating-label input {
+      height: 56px;
+      padding-top: 20px;
+      padding-left: 12px;
+    }
+
+    .floating-label label {
+      position: absolute;
+      top: 18px;
+      left: 12px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+      transform: translateY(-12px);
+      font-size: 0.75rem;
+      color: #818cf8;
+    }
+
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .glow-button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      transform: rotate(30deg);
+    }
+
+    .glow-button:hover::after {
+      opacity: 1;
+    }
+
+    .customer-item {
+      border-left: 3px solid #818cf8;
+      transition: all 0.3s ease;
+    }
+
+    .customer-item:hover {
+      border-left-width: 6px;
+      transform: translateX(4px);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(129, 140, 248, 0.5);
+      border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(129, 140, 248, 0.8);
+    }
+
+    .wave-bg {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23334155' fill-opacity='0.3' d='M0,192L48,176C96,160,192,128,288,128C384,128,480,160,576,186.7C672,213,768,235,864,229.3C960,224,1056,192,1152,186.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen">
+
+<div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+
+  <div class="p-6 lg:p-10 flex flex-col justify-center items-center">
+    <div class="max-w-lg w-full">
+      <h2 class="text-3xl font-bold mb-8 form-header">Add Customer Details</h2>
+
+      <form id="customerForm" class="neo-card p-8 rounded-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="floating-label">
+            <input type="text" id="fullName" placeholder=" " required
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Full Name</label>
+          </div>
+
+          <div class="floating-label">
+            <input type="text" id="customerType" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Customer Type</label>
+          </div>
+
+          <div class="floating-label">
+            <input type="date" id="dob" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>DOB</label>
+          </div>
+
+          <div class="floating-label">
+            <input type="text" id="status" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Status</label>
+          </div>
+
+          <div class="floating-label">
+            <input type="text" id="contactNumber" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Contact Number</label>
+          </div>
+
+          <div class="floating-label">
+            <input type="email" id="email" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Email</label>
+          </div>
+
+          <div class="floating-label md:col-span-2">
+            <input type="text" id="countryOfOrigin" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Country of Origin</label>
+          </div>
+
+          <div class="floating-label md:col-span-2">
+            <input type="date" id="effectiveDate" placeholder=" "
+                   class="w-full neo-input text-white focus:outline-none" />
+            <label>Effective Date</label>
+          </div>
+
+          <div class="md:col-span-2 text-center mt-6">
+            <button type="submit"
+                    class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-10 py-3 rounded-full glow-button font-semibold transition transform hover:scale-105 focus:outline-none hover:shadow-lg">
+              <i class="fas fa-check-circle mr-2"></i> Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="relative flex flex-col justify-start items-center p-6 lg:p-10 wave-bg">
+    <div class="neo-card p-8 rounded-xl w-full max-w-lg">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold form-header mb-4">Customer List</h1>
+
+        <button onclick="loadCustomers()" class="px-6 py-2 mb-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full hover:from-blue-600 hover:to-blue-700 text-white font-medium glow-button transition flex items-center justify-center mx-auto">
+          <i class="fas fa-list mr-2"></i> View Customers
+        </button>
+
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <div class="relative flex-1">
+            <input type="text" id="searchInput" onkeyup="filterCustomers()" placeholder="Search by name or email"
+                   class="px-4 py-2 pl-10 w-full rounded-full text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+          </div>
+          <button onclick="document.getElementById('searchInput').value=''; filterCustomers();"
+                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-full text-sm font-medium transition flex items-center justify-center">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <ul id="customerList" class="space-y-3 max-h-[350px] overflow-y-auto custom-scrollbar px-2 text-left"></ul>
+
+      <div class="text-center mt-6">
+        <a href="dashboard.html" class="inline-flex items-center px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 rounded-full hover:from-indigo-700 hover:to-blue-600 text-white font-medium transition glow-button">
+          <i class="fas fa-arrow-left mr-2"></i> Back
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function loadCustomers() {
+    const customerList = document.getElementById('customerList');
+    
+    const sampleCustomers = [
+      { id: "CUST001", name: "John Doe", email: "john.doe@example.com", type: "Premium", status: "Active" },
+      { id: "CUST002", name: "Jane Smith", email: "jane.smith@example.com", type: "Standard", status: "Active" },
+      { id: "CUST003", name: "Robert Johnson", email: "robert@example.com", type: "Premium", status: "Inactive" }
+    ];
+    
+    customerList.innerHTML = '';
+    
+    sampleCustomers.forEach(customer => {
+      const item = document.createElement('li');
+      item.className = 'neo-card p-4 customer-item';
+      item.innerHTML = `
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="font-semibold text-blue-300">${customer.name}</h3>
+            <p class="text-gray-300">${customer.email}</p>
+            <p class="text-gray-400 text-sm">Type: ${customer.type} | Status: ${customer.status}</p>
+          </div>
+          <div class="flex space-x-2">
+            <button class="text-blue-400 hover:text-blue-300 transition">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="text-red-400 hover:text-red-300 transition">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      customerList.appendChild(item);
+    });
+  }
+  
+  function filterCustomers() {
+    console.log("Filtering customers...");
+  }
+</script>
+
+<script src="customer-details.js"></script>
+</body>
+</html>
